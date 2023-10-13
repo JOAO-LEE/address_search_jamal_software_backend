@@ -31,7 +31,7 @@ app.MapGet("/", async (AddressSearchService addressSearchService) =>
 
     if (foundAddressInDB.Count() == 0)
     {
-        return Results.NotFound(new { message = "Não há endereços cadastrados!" });
+        return Results.NotFound(new { message = "Não há endereços cadastrados!", name = "Erro", severity = "error" });
     }
     return Results.Ok(foundAddressInDB);
 });
@@ -48,9 +48,8 @@ app.MapGet("/{cepNumber}", async (string cepNumber, AddressSearchService address
     var foundAddressExternal = await cepService.GetAddress(cepNumber);
     if (foundAddressExternal is null)
     {
-        return Results.BadRequest(new { message = "Não existe endereços com o CEP informado!" });
+        return Results.BadRequest(new { message = "Não existe endereços com o CEP informado!", name = "error" });
     }
-
     await addressSearchService.CreateAddress(foundAddressExternal);
     return Results.Ok(foundAddressExternal);
 });

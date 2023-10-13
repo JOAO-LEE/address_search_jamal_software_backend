@@ -15,7 +15,7 @@ namespace AddressSearch.Services {
             string ViaCepUrl = $"https://viacep.com.br/ws/{cepNumber}/json"; 
            var requestMessage = new HttpRequestMessage(HttpMethod.Get, ViaCepUrl);
            requestMessage.Headers.Add("Accept", "application/json");
-            var response = await _client.SendAsync(requestMessage);
+            var response = await _client.SendAsync(requestMessage).ConfigureAwait(false);
             var wasRequestSuccesful = !response.IsSuccessStatusCode;
 
             if (wasRequestSuccesful)

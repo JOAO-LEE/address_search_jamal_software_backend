@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/joaolee/personal-projects/jamal_software/address_search_jamal_software/AddressSearch/AddressSearch.csproj": {}
+    "/home/joaolee/personal-projects/jamal_software/backend_address_search/AddressSearch.csproj": {}
   },
   "projects": {
-    "/home/joaolee/personal-projects/jamal_software/address_search_jamal_software/AddressSearch/AddressSearch.csproj": {
+    "/home/joaolee/personal-projects/jamal_software/backend_address_search/AddressSearch.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/joaolee/personal-projects/jamal_software/address_search_jamal_software/AddressSearch/AddressSearch.csproj",
+        "projectUniqueName": "/home/joaolee/personal-projects/jamal_software/backend_address_search/AddressSearch.csproj",
         "projectName": "AddressSearch",
-        "projectPath": "/home/joaolee/personal-projects/jamal_software/address_search_jamal_software/AddressSearch/AddressSearch.csproj",
+        "projectPath": "/home/joaolee/personal-projects/jamal_software/backend_address_search/AddressSearch.csproj",
         "packagesPath": "/home/joaolee/.nuget/packages/",
-        "outputPath": "/home/joaolee/personal-projects/jamal_software/address_search_jamal_software/AddressSearch/obj/",
+        "outputPath": "/home/joaolee/personal-projects/jamal_software/backend_address_search/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/joaolee/.nuget/NuGet/NuGet.Config"
@@ -65,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/6.0.122/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/6.0.123/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,4 +1,3 @@
-using System.Data;
 using AddressSearch.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -9,8 +8,7 @@ public class AddressSearchService
 {
     private readonly IMongoCollection<Address> _address;
 
-    public AddressSearchService(
-        IOptions<AddressSearchDatabaseSettings> AddressSearchDatabaseSettings)
+    public AddressSearchService(IOptions<AddressSearchDatabaseSettings> AddressSearchDatabaseSettings)
     {
         var mongoClient = new MongoClient(
             AddressSearchDatabaseSettings.Value.ConnectionString);
