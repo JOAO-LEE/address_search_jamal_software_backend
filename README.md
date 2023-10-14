@@ -1,0 +1,1 @@
+<!-- Entre Java e C# escolhi C# após conversar com algumas pessoas, ver alguns vídeos; os dois são muito utilizados lá fora, mas pelo que vi o C# por ser mais "novo" vai me da -->
