@@ -4,8 +4,7 @@ using Services.ViaCepServiceInterfaces;
 namespace AddressSearch.Services {
     public class ViaCepService : IViaCepService
     {
-        private readonly HttpClient _client;
-        private readonly string viaCepBaseAddress = "https://viacep.com.br/ws/";
+       private readonly string _viaCepBaseAddress = "https://viacep.com.br/ws/";
         public ViaCepService(HttpClient client) 
         {
             _client = client;
@@ -15,8 +14,7 @@ namespace AddressSearch.Services {
         { 
             try
             {
-                string ViaCepUrl = $"{viaCepBaseAddress}{cepNumber}/json"; 
-                var requestMessage = new HttpRequestMessage(HttpMethod.Get, ViaCepUrl);
+                
             }
             catch (Exception err)
             {
