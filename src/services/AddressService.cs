@@ -1,14 +1,15 @@
+using AddressSearch.DTOs;
 using AddressSearch.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace AddressSearch.Services;
 
-public class AddressSearchService
+public class AddressService
 {
     private readonly IMongoCollection<Address> _address;
 
-    public AddressSearchService(IOptions<AddressSearchDatabaseSettings> AddressSearchDatabaseSettings)
+    public AddressService(IOptions<AddressSearchDatabaseSettings> AddressSearchDatabaseSettings)
     {
         var mongoClient = new MongoClient(
             AddressSearchDatabaseSettings.Value.ConnectionString);
@@ -26,7 +27,7 @@ public class AddressSearchService
         return allAddressesFound;
     }
 
-    public async Task<Address?> GetAddressByCepNumber(string cepNumber) 
+    public async Task<Address> GetAddressByCepNumber(string cepNumber) 
     {
         var foundAddress = await _address.Find(x => x.Cep == cepNumber).FirstOrDefaultAsync().ConfigureAwait(false);
         return foundAddress;

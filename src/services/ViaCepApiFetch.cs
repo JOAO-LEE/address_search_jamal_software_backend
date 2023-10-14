@@ -1,4 +1,5 @@
 using AddressSearch.Models;
+using AddressSearch.DTOs;
 using Services.ViaCepServiceInterfaces;
 
 namespace AddressSearch.Services {
@@ -6,7 +7,8 @@ namespace AddressSearch.Services {
     {
         public HttpClient _client;
          
-        public ViaCepService(HttpClient client) {
+        public ViaCepService(HttpClient client) 
+        {
             _client = client;
         }
 

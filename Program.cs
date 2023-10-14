@@ -19,15 +19,15 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddSingleton<AddressSearchService>();
+builder.Services.AddSingleton<AddressService>();
 builder.Services.AddHttpClient<ViaCepService>();
 builder.Services.AddSingleton<ViaCepService>();
 
 var app = builder.Build();
 
-app.MapGet("/", async (AddressSearchService addressSearchService) =>
+app.MapGet("/", async (AddressService addressService) =>
 {
-    var foundAddressInDB = await addressSearchService.GetAllAddresses();
+    var foundAddressInDB = await addressService.GetAllAddresses();
 
     if (foundAddressInDB.Count() == 0)
     {
@@ -36,10 +36,10 @@ app.MapGet("/", async (AddressSearchService addressSearchService) =>
     return Results.Ok(foundAddressInDB);
 });
 
-app.MapGet("/{cepNumber}", async (string cepNumber, AddressSearchService addressSearchService, ViaCepService cepService) =>
+app.MapGet("/{cepNumber}", async (string cepNumber, AddressService addressService, ViaCepService cepService) =>
 {
 
-   var foundAddressInDB = await addressSearchService.GetAddressByCepNumber(cepNumber);
+   var foundAddressInDB = await addressService.GetAddressByCepNumber(cepNumber);
     if (foundAddressInDB is not null)
     {
         return Results.Ok(foundAddressInDB);
@@ -50,7 +50,7 @@ app.MapGet("/{cepNumber}", async (string cepNumber, AddressSearchService address
     {
         return Results.BadRequest(new { message = "Não existe endereços com o CEP informado!", name = "error" });
     }
-    await addressSearchService.CreateAddress(foundAddressExternal);
+    await addressService.CreateAddress(foundAddressExternal);
     return Results.Ok(foundAddressExternal);
 });
 
