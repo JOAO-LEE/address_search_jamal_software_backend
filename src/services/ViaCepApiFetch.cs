@@ -1,37 +1,44 @@
 using AddressSearch.Models;
-using AddressSearch.DTOs;
 using Services.ViaCepServiceInterfaces;
 
 namespace AddressSearch.Services {
     public class ViaCepService : IViaCepService
     {
-        public HttpClient _client;
-         
+        private readonly HttpClient _client;
+        private readonly string viaCepBaseAddress = "https://viacep.com.br/ws/";
         public ViaCepService(HttpClient client) 
         {
             _client = client;
         }
 
-        public async Task<Address> GetAddress(string cepNumber)
+        public async Task<string> GetAddress(string cepNumber)
         { 
-            string ViaCepUrl = $"https://viacep.com.br/ws/{cepNumber}/json"; 
-           var requestMessage = new HttpRequestMessage(HttpMethod.Get, ViaCepUrl);
-           requestMessage.Headers.Add("Accept", "application/json");
-            var response = await _client.SendAsync(requestMessage).ConfigureAwait(false);
-            var wasRequestSuccesful = !response.IsSuccessStatusCode;
-            if (wasRequestSuccesful)
+            try
             {
-                return null!;
+                string ViaCepUrl = $"{viaCepBaseAddress}{cepNumber}/json"; 
+                var requestMessage = new HttpRequestMessage(HttpMethod.Get, ViaCepUrl);
             }
-
-            var jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            if (jsonResponse.Contains("\"erro\": true"))
+            catch (Exception err)
             {
-            return null!;
+                
+                throw;
             }
+        //    requestMessage.Headers.Add("Accept", "application/json");
+        //     var response = await _client.SendAsync(requestMessage).ConfigureAwait(false);
+        //     var wasRequestSuccesful = !response.IsSuccessStatusCode;
+        //     if (wasRequestSuccesful)
+        //     {
+        //         return null!;
+        //     }
 
-            var result = await response.Content.ReadFromJsonAsync<Address>().ConfigureAwait(false);
-            return result!;
+        //     var jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        //     if (jsonResponse.Contains("\"erro\": true"))
+        //     {
+        //     return null!;
+        //     }
+
+        //     var result = await response.Content.ReadFromJsonAsync<Address>().ConfigureAwait(false);
+        //     return result!;
         }
     }
 }
