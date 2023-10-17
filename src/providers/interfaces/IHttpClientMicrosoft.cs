@@ -1,5 +1,6 @@
-// namespace Providers.Interfaces;
+namespace Providers.Interfaces;
 
-// public interface IHttpClientMicrosoft: IHttpClient<string> {
-//     Task<string> Get
-// }
+public interface IHttpClientMicrosoft : IHttpClient<string>
+{
+    Task<string> Get();
+}

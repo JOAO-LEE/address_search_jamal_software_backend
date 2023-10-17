@@ -1,10 +1,9 @@
 using AddressSearch.DTOs;
-using AddressSearch.Models;
 
-namespace Services.ViaCepServiceInterfaces 
+namespace Services.ViaCepServiceInterfaces
 {
-    public interface IViaCepService 
+    public interface IViaCepService<T>
     {
-        Task<string> GetAddress(string cepNumber);
+        Task<T> GetAddress(string cepNumber);
     }
 }

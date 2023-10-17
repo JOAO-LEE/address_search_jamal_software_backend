@@ -1,7 +1,7 @@
 namespace AddressSearch.DTOs;
 
 public record class AddressDto(
-    string Id, 
+    string Id,
     string Cep,
     string Logradouro,
     string Complemento,

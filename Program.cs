@@ -1,3 +1,4 @@
+using System.Net;
 using AddressSearch.Models;
 using AddressSearch.Services;
 
@@ -10,9 +11,10 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 builder.Services.Configure<AddressSearchDatabaseSettings>(builder.Configuration.GetSection("AddressSearchDatabase"));
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-builder.Services.AddCors(options => 
+builder.Services.AddCors(options =>
 {
-    options.AddPolicy(MyAllowSpecificOrigins, policy => {
+    options.AddPolicy(MyAllowSpecificOrigins, policy =>
+    {
         policy.AllowAnyOrigin() // Ou use .WithOrigins("http://localhost:5173")
               .AllowAnyHeader()
               .AllowAnyMethod();
@@ -27,19 +29,25 @@ var app = builder.Build();
 
 app.MapGet("/", async (AddressService addressService) =>
 {
-    var foundAddressInDB = await addressService.GetAllAddresses();
-
-    if (foundAddressInDB.Count() == 0)
+    try
     {
-        return Results.NotFound(new { message = "Não há endereços cadastrados!", name = "Erro", severity = "error" });
+        var foundAddressInDB = await addressService.GetAllAddresses();
+        return Results.Ok(foundAddressInDB);
     }
-    return Results.Ok(foundAddressInDB);
+    catch (RequestException ex)
+    {
+        return ex.StatusCode switch
+        {
+            HttpStatusCode.NotFound => Results.NotFound(ex.Message),
+            _ => Results.BadRequest(ex.Message),
+        };
+    }
 });
 
 app.MapGet("/{cepNumber}", async (string cepNumber, AddressService addressService, ViaCepService cepService) =>
 {
 
-   var foundAddressInDB = await addressService.GetAddressByCepNumber(cepNumber);
+    var foundAddressInDB = await addressService.GetAddressByCepNumber(cepNumber);
     if (foundAddressInDB is not null)
     {
         return Results.Ok(foundAddressInDB);
