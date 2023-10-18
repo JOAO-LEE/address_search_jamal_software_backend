@@ -1,6 +1,9 @@
 using System.Net;
 using AddressSearch.Models;
 using AddressSearch.Services;
+using Services.ViaCepServiceInterfaces;
+using Providers.Interfaces;
+using Providers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
@@ -22,8 +25,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddSingleton<AddressService>();
-builder.Services.AddHttpClient<ViaCepService>();
-builder.Services.AddSingleton<ViaCepService>();
+// builder.Services.AddSingleton<IHttpClientMicrosoft, HttpClientMicrosoft>();
+// builder.Services.AddSingleton<IViaCepService, ViaCepService>();
 
 var app = builder.Build();
 
@@ -38,29 +41,29 @@ app.MapGet("/", async (AddressService addressService) =>
     {
         return ex.StatusCode switch
         {
-            HttpStatusCode.NotFound => Results.NotFound(ex.Message),
+            HttpStatusCode.NotFound => Results.NotFound(new { ex.Message, ex.StatusCode, severity = ex.Severity  }),
             _ => Results.BadRequest(ex.Message),
         };
     }
 });
 
-app.MapGet("/{cepNumber}", async (string cepNumber, AddressService addressService, ViaCepService cepService) =>
-{
+// app.MapGet("/{cepNumber}", async (string cepNumber, AddressService addressService, ViaCepService cepService) =>
+// {
 
-    var foundAddressInDB = await addressService.GetAddressByCepNumber(cepNumber);
-    if (foundAddressInDB is not null)
-    {
-        return Results.Ok(foundAddressInDB);
-    }
+//     var foundAddressInDB = await addressService.GetAddressByCepNumber(cepNumber);
+//     if (foundAddressInDB is not null)
+//     {
+//         return Results.Ok(foundAddressInDB);
+//     }
 
-    var foundAddressExternal = await cepService.GetAddress(cepNumber);
-    if (foundAddressExternal is null)
-    {
-        return Results.BadRequest(new { message = "Não existe endereços com o CEP informado!", name = "error" });
-    }
-    await addressService.CreateAddress(foundAddressExternal);
-    return Results.Ok(foundAddressExternal);
-});
+//     var foundAddressExternal = await cepService.GetAddress(cepNumber);
+//     if (foundAddressExternal is null)
+//     {
+//         return Results.BadRequest(new { message = "Não existe endereços com o CEP informado!", name = "error" });
+//     }
+//     await addressService.CreateAddress(foundAddressExternal);
+//     return Results.Ok(foundAddressExternal);
+// });
 
 app.UseCors(MyAllowSpecificOrigins);
 

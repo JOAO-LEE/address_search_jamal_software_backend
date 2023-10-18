@@ -1,7 +1,7 @@
 using System.Net;
 using Providers.Interfaces;
-
-public class HttpClientMicrosoft : IHttpClient<string>
+namespace Providers;
+public class HttpClientMicrosoft : IHttpClientMicrosoft
 {
 
     private readonly HttpClient _client;
@@ -19,12 +19,12 @@ public class HttpClientMicrosoft : IHttpClient<string>
         bool wasRequestSuccesful = response == null || !response.IsSuccessStatusCode;
         if (wasRequestSuccesful)
         {
-            throw new RequestException(new RequestError { Message = "Algo deu errado", Name = "Erro!", StatusCode = HttpStatusCode.NotFound });
+            throw new RequestException(new RequestError { Message = "Algo deu errado", Severity = "error", StatusCode = HttpStatusCode.NotFound });
         }
         var responseObj = await response!.Content.ReadAsStringAsync().ConfigureAwait(false);
         if (responseObj.ToString()!.Contains("\"erro\": true"))
         {
-            throw new RequestException(new RequestError { Message = "Cep inexistente", Name = "Erro!", StatusCode = HttpStatusCode.BadRequest });
+            throw new RequestException(new RequestError { Message = "Cep inexistente", Severity = "error", StatusCode = HttpStatusCode.BadRequest });
         }
         return responseObj;
     }

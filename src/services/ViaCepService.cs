@@ -1,11 +1,11 @@
 using Services.ViaCepServiceInterfaces;
 using Providers.Interfaces;
-using AddressSearch.DTOs;
 using System.Text.Json;
+using AddressSearch.Models;
 
 namespace AddressSearch.Services
 {
-    public class ViaCepService : IViaCepService<AddressDto>
+    public class ViaCepService : IViaCepService
     {
         private readonly string _viaCepBaseAddress = "https://viacep.com.br/ws/";
         private readonly IHttpClientMicrosoft _client;
@@ -14,11 +14,11 @@ namespace AddressSearch.Services
             _client = client;
         }
 
-        public async Task<AddressDto> GetAddress(string cepNumber)
+        public async Task<Address> GetAddress(string cepNumber)
         {
             var fullUrl = $"{_viaCepBaseAddress}/${cepNumber}/json";
             var addressResult = await _client.Get(fullUrl).ConfigureAwait(false); 
-            var response = JsonSerializer.Deserialize<AddressDto>(addressResult);
+            var response = JsonSerializer.Deserialize<Address>(addressResult);
             return response!;
         }
     }

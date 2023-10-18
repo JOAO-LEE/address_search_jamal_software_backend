@@ -1,4 +1,3 @@
-using AddressSearch.DTOs;
 using AddressSearch.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -24,6 +23,9 @@ public class AddressService
     public async Task<List<Address>> GetAllAddresses()
     {
         var allAddressesFound = await _address.Find(_ => true).ToListAsync().ConfigureAwait(false);
+        if (allAddressesFound.Count == 0) {
+            throw new RequestException(new RequestError { Message = "Não há endereços cadastrados!", Severity = "Error", StatusCode = System.Net.HttpStatusCode.NotFound });
+        }
         return allAddressesFound;
     }
 

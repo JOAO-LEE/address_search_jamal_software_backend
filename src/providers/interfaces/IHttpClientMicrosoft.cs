@@ -1,6 +1,6 @@
 namespace Providers.Interfaces;
 
-public interface IHttpClientMicrosoft : IHttpClient<string>
+public interface IHttpClientMicrosoft : IHttpClient
 {
-    Task<string> Get();
+    new Task<string> Get(string url);
 }
